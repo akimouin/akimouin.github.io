@@ -19,9 +19,120 @@
                 );
                 overflow: hidden;
             }
+            .weather {
+                font-size: 48px;
+                position: absolute;
+                top: 50%;
+                left: 10%;
+                transform: translate(0, -50%);
+            }
         </style>
     </head>
     <body>
-        <h1>try colors</h1>
+        <h1 class="weather">try colors</h1>
+        <script
+            src="https://code.jquery.com/jquery-3.6.1.min.js"
+            integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ="
+            crossorigin="anonymous"
+        ></script>
+        <script>
+            const now = new Date();
+            const hour = now.getHours();
+
+            $.get(
+                "https://opendata.cwb.gov.tw/api/v1/rest/datastore/O-A0003-001?Authorization=CWB-A8D0E97B-19AA-4DA6-9229-C2A39DF250A1&locationName=%E6%9D%BF%E6%A9%8B&elementName=TEMP,Weather&parameterName=",
+                function (data) {
+                    const temp =
+                        data["records"]["location"][0]["weatherElement"][0][
+                            "elementValue"
+                        ];
+                    const weather =
+                        data["records"]["location"][0]["weatherElement"][1][
+                            "elementValue"
+                        ];
+                    // console.log(
+                    //     "temp:" + Math.round(temp) + ";weather:" + weather
+                    // );
+                    $(".weather").text(weather);
+                    if (temp > 26) {
+                        if (hour > 18) {
+                            $("body")
+                                .css(
+                                    "background",
+                                    "linear-gradient(180deg, #232742 0%, #504762 83.5%, #1E1B22 100%)"
+                                )
+                                .css("color", "white");
+                        } else if (hour < 5) {
+                            $("body")
+                                .css(
+                                    "background",
+                                    "linear-gradient(180deg, #232742 0%, #504762 83.5%, #1E1B22 100%)"
+                                )
+                                .css("color", "white");
+                        } else if (hour < 10) {
+                            $("body")
+                                .css(
+                                    "background",
+                                    "linear-gradient(187.53deg, #000C35 5.31%, #0B1E62 27.06%, #5896D2 53.08%, #FEFBEC 87.09%, #F6DE72 95.47%, #E9A25E 99.9%)"
+                                )
+                                .css("color", "white");
+                        } else if (hour < 16) {
+                            $("body")
+                                .css(
+                                    "background",
+                                    "linear-gradient(111.2deg, #092D74 0%, #3E73BF 29.71%, #81ACCF 81.32%)"
+                                )
+                                .css("color", "black");
+                        } else if (hour < 19) {
+                            $("body")
+                                .css(
+                                    "background",
+                                    "linear-gradient(170.27deg, #1F4665 8.66%, #577692 27.99%, #C08079 51.09%, #FD8B42 71.24%, #FDD077 92.68%)"
+                                )
+                                .css("color", "black");
+                        }
+                    } else {
+                        if (hour > 18) {
+                            $("body")
+                                .css(
+                                    "background",
+                                    "linear-gradient(180deg, #232742 0%, #504762 83.5%, #1E1B22 100%)"
+                                )
+                                .css("color", "white");
+                        } else if (hour < 5) {
+                            $("body")
+                                .css(
+                                    "background",
+                                    "linear-gradient(180deg, #232742 0%, #504762 83.5%, #1E1B22 100%)"
+                                )
+                                .css("color", "white");
+                        } else if (hour < 10) {
+                            $("body")
+                                .css(
+                                    "background",
+                                    "linear-gradient(199.39deg, #6A70D0 10.06%, #9A97DA 27.75%, #D6CBEA 48.91%, #ECE5F7 74.29%, #EFE5EE 86.98%)"
+                                )
+                                .css("color", "white");
+                        } else if (hour < 16) {
+                            $("body")
+                                .css(
+                                    "background",
+                                    "linear-gradient(111.2deg, #092D74 0%, #3E73BF 29.71%, #81ACCF 81.32%)"
+                                )
+                                .css("color", "black");
+                        } else if (hour < 19) {
+                            $("body")
+                                .css(
+                                    "background",
+                                    "linear-gradient(180deg, #216EC8 0%, #637EC4 23%, #8B8BBF 50.5%, #B59FAC 83.5%, #F1C8A5 100%)"
+                                )
+                                .css("color", "black");
+                        }
+                    }
+                }
+            );
+
+            console.log(hour);
+        </script>
     </body>
 </html>
