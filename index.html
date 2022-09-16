@@ -6,17 +6,13 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>Weather</title>
         <style>
+            * {
+                margin: 0;
+            }
             body {
                 width: 100%;
                 height: 100vh;
-                background: linear-gradient(
-                    180deg,
-                    #216ec8 0%,
-                    #637ec4 23%,
-                    #8b8bbf 50.5%,
-                    #b59fac 83.5%,
-                    #f1c8a5 100%
-                );
+                background-color: black;
                 overflow: hidden;
             }
             .weather {
@@ -26,10 +22,66 @@
                 left: 10%;
                 transform: translate(0, -50%);
             }
+            .rain-box {
+                position: absolute;
+                width: 100%;
+                height: 100vh;
+                margin-top: -20px;
+                display: flex;
+                justify-content: space-evenly;
+                visibility: hidden;
+            }
+            .rain {
+                width: 10px;
+                height: 100px;
+                transform: rotate(15deg);
+            }
+            .rain:nth-child(2)::after {
+                animation-delay: 0.4s;
+            }
+            .rain:nth-child(3)::after {
+                animation-delay: 0.3s;
+            }
+            .rain:nth-child(4)::after {
+                animation-delay: 0.2s;
+            }
+            .rain:nth-child(5)::after {
+                animation-delay: 0.1s;
+            }
+            .rain::after {
+                content: "";
+                display: inline-block;
+                width: 5px;
+                height: 50px;
+                background-color: rgba(255, 255, 255, 0.5);
+                border-radius: 5px;
+                margin-top: 0px;
+                animation: drip 0.8s infinite;
+            }
+            @keyframes drip {
+                0% {
+                    margin-top: 0;
+                    height: 0;
+                }
+                20% {
+                    height: 50px;
+                }
+                100% {
+                    margin-top: 100vh;
+                    height: 10px;
+                }
+            }
         </style>
     </head>
     <body>
-        <h1 class="weather">try colors</h1>
+        <h1 class="weather"></h1>
+        <div class="rain-box">
+            <div class="rain"></div>
+            <div class="rain"></div>
+            <div class="rain"></div>
+            <div class="rain"></div>
+            <div class="rain"></div>
+        </div>
         <script
             src="https://code.jquery.com/jquery-3.6.1.min.js"
             integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ="
@@ -50,9 +102,7 @@
                         data["records"]["location"][0]["weatherElement"][1][
                             "elementValue"
                         ];
-                    // console.log(
-                    //     "temp:" + Math.round(temp) + ";weather:" + weather
-                    // );
+                    const isRain = weather.match("雨");
                     $(".weather").text(weather);
                     if (temp > 26) {
                         if (hour > 18) {
@@ -129,10 +179,11 @@
                                 .css("color", "black");
                         }
                     }
+                    if (isRain) {
+                        $(".rain-box").css("visibility", "visible");
+                    }
                 }
             );
-
-            console.log(hour);
         </script>
     </body>
 </html>
