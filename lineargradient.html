@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Linear-Gradient</title>
+        <style>
+            @import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&display=swap");
+        </style>
+        <style>
+            * {
+                margin: 0;
+                font-family: "Montserrat", sans-serif;
+            }
+            .bgc {
+                position: absolute;
+                z-index: -99;
+                width: 100%;
+                height: 100vh;
+                background: linear-gradient(
+                    180deg,
+                    hsl(0, 0%, 80%) 0%,
+                    hsl(0, 0%, 33%) 100%
+                );
+            }
+            .title {
+                position: absolute;
+                top: 25%;
+                left: 50%;
+                transform: translateX(-50%);
+            }
+            .title p {
+                text-align: center;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="bgc"></div>
+        <div class="title"
+            ><h1>Linear-Gradient</h1> <p>Clip to Change Color!</p></div
+        >
+        <script
+            src="https://code.jquery.com/jquery-3.6.1.min.js"
+            integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ="
+            crossorigin="anonymous"
+        ></script>
+        <script>
+            //offsetHeight  offsetWidth
+            const getRandomint = (x) => Math.floor(Math.random() * x);
+            $(".bgc").css(
+                "background",
+                `linear-gradient(180deg, hsl(${getRandomint(
+                    360
+                )}, 15%, 75%) 40%, hsl(${getRandomint(360)}, 20%, 70%) 70%)`
+            );
+            $(".bgc").click((e) => {
+                const x = e.offsetX - e.target.offsetWidth / 2;
+                const y = e.target.offsetHeight / 2 - e.offsetY;
+                const degree = (Math.atan2(y, x) * (180 / Math.PI) + 360) % 360;
+                const color1 = getRandomint(360);
+                const color2 = getRandomint(360);
+                console.log(color1);
+                $(".bgc").css(
+                    "background",
+                    `linear-gradient(${degree}deg, hsl(${color1}, 15%, 75%) 40%, hsl(${color2}, 20%, 70%) 70%)`
+                );
+            });
+        </script>
+    </body>
+</html>
