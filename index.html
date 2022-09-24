@@ -21,6 +21,7 @@
                 top: 50%;
                 left: 10%;
                 transform: translate(0, -50%);
+                z-index: 30;
             }
             .rain-box {
                 position: absolute;
@@ -58,6 +59,40 @@
                 margin-top: 0px;
                 animation: drip 0.8s infinite;
             }
+            .star-box {
+                visibility: hidden;
+            }
+            .star4 {
+                position: absolute;
+                width: 10px;
+                height: 10px;
+            }
+            .star4 path {
+                fill: rgb(252, 248, 237);
+            }
+            .cloudy-box {
+                height: 100%;
+                background-color: #555;
+                opacity: 0.5;
+                visibility: hidden;
+            }
+            @keyframes twinkling {
+                0% {
+                    opacity: 1;
+                }
+                49% {
+                    opacity: 0.3;
+                }
+                50% {
+                    opacity: 0;
+                }
+                51% {
+                    opacity: 0.3;
+                }
+                100% {
+                    opacity: 1;
+                }
+            }
             @keyframes drip {
                 0% {
                     margin-top: 0;
@@ -82,6 +117,8 @@
             <div class="rain"></div>
             <div class="rain"></div>
         </div>
+        <div class="star-box"> </div>
+        <div class="cloudy-box"></div>
         <script
             src="https://code.jquery.com/jquery-3.6.1.min.js"
             integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ="
@@ -90,6 +127,23 @@
         <script>
             const now = new Date();
             const hour = now.getHours();
+            const getRandomint = (x) => Math.floor(Math.random() * x);
+            for (i = 0; i < 20; i++) {
+                const x = getRandomint(100);
+                const y = getRandomint(30);
+                const t1 = getRandomint(10);
+                const t2 = getRandomint(30);
+                $(".star-box").append(
+                    `<svg width="157" height="157" viewBox="0 0 157 157" fill="none" xmlns="http://www.w3.org/2000/svg" class="star4">
+<path d="M71.935 4.74155C74.1901 -1.35278 82.8099 -1.35279 85.065 4.74154L102.096 50.768C102.805 52.684 104.316 54.1947 106.232 54.9037L152.258 71.935C158.353 74.1901 158.353 82.8099 152.258 85.065L106.232 102.096C104.316 102.805 102.805 104.316 102.096 106.232L85.065 152.258C82.8099 158.353 74.1901 158.353 71.935 152.258L54.9037 106.232C54.1947 104.316 52.684 102.805 50.768 102.096L4.74155 85.065C-1.35278 82.8099 -1.35279 74.1901 4.74154 71.935L50.768 54.9037C52.684 54.1947 54.1947 52.684 54.9037 50.768L71.935 4.74155Z" fill="wheat"/>
+</svg>`
+                );
+                $(".star4:last")
+                    .css("left", `${x}%`)
+                    .css("top", `${y}%`)
+                    .css("animation", `twinkling ${t1}s infinite`)
+                    .css("animation-delay", `${t2}s`);
+            }
 
             $.get(
                 "https://opendata.cwb.gov.tw/api/v1/rest/datastore/O-A0003-001?Authorization=CWB-A8D0E97B-19AA-4DA6-9229-C2A39DF250A1&locationName=%E6%9D%BF%E6%A9%8B&elementName=TEMP,Weather&parameterName=",
@@ -103,15 +157,17 @@
                             "elementValue"
                         ];
                     const isRain = weather.match("雨");
+                    const isCloudy = weather.match("雲") || weather.match("陰");
                     $(".weather").text(weather);
                     if (temp > 26) {
-                        if (hour > 18) {
+                        if (hour > 18 || hour < 5) {
                             $("body")
                                 .css(
                                     "background",
                                     "linear-gradient(180deg, #232742 0%, #504762 83.5%, #1E1B22 100%)"
                                 )
                                 .css("color", "white");
+                            $(".star-box").css("visibility", "visible");
                         } else if (hour < 5) {
                             $("body")
                                 .css(
@@ -142,20 +198,14 @@
                                 .css("color", "black");
                         }
                     } else {
-                        if (hour > 18) {
+                        if (hour > 18 || hour < 5) {
                             $("body")
                                 .css(
                                     "background",
                                     "linear-gradient(180deg, #232742 0%, #504762 83.5%, #1E1B22 100%)"
                                 )
                                 .css("color", "white");
-                        } else if (hour < 5) {
-                            $("body")
-                                .css(
-                                    "background",
-                                    "linear-gradient(180deg, #232742 0%, #504762 83.5%, #1E1B22 100%)"
-                                )
-                                .css("color", "white");
+                            $(".star-box").css("visibility", "visible");
                         } else if (hour < 10) {
                             $("body")
                                 .css(
@@ -181,6 +231,10 @@
                     }
                     if (isRain) {
                         $(".rain-box").css("visibility", "visible");
+                        $(".cloudy-box").css("visibility", "visible");
+                    }
+                    if (isCloudy) {
+                        $(".cloudy-box").css("visibility", "visible");
                     }
                 }
             );
