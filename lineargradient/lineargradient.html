@@ -30,16 +30,27 @@
                 left: 50%;
                 transform: translateX(-50%);
             }
-            .title p {
+            .bgc p {
+                padding-top: 70vh;
                 text-align: center;
+                animation: opacityChange 3s infinite ease-in-out;
+            }
+            @keyframes opacityChange {
+                0% {
+                    opacity: 1;
+                }
+                50% {
+                    opacity: 0;
+                }
+                100% {
+                    opacity: 1;
+                }
             }
         </style>
     </head>
     <body>
-        <div class="bgc"></div>
-        <div class="title"
-            ><h1>Linear-Gradient</h1> <p>Clip to Change Color!</p></div
-        >
+        <div class="bgc"><p>Click to Change Color!</p></div>
+        <div class="title"><h1>Linear-Gradient</h1><h4></h4></div>
         <script
             src="https://code.jquery.com/jquery-3.6.1.min.js"
             integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ="
@@ -48,22 +59,28 @@
         <script>
             //offsetHeight  offsetWidth
             const getRandomint = (x) => Math.floor(Math.random() * x);
+            const defaulcolor1 = getRandomint(360);
+            const defaulcolor2 = getRandomint(360);
             $(".bgc").css(
                 "background",
-                `linear-gradient(180deg, hsl(${getRandomint(
-                    360
-                )}, 15%, 75%) 40%, hsl(${getRandomint(360)}, 20%, 70%) 70%)`
+                `linear-gradient(180deg, hsl(${defaulcolor1}, 15%, 75%) 40%, hsl(${defaulcolor2}, 20%, 70%) 70%)`
             );
+            $("h4").text(
+                `color1 hsl(${defaulcolor1}, 15%, 75%) color2 hsl(${defaulcolor2}, 20%, 70%)`
+            );
+
             $(".bgc").click((e) => {
                 const x = e.offsetX - e.target.offsetWidth / 2;
                 const y = e.target.offsetHeight / 2 - e.offsetY;
                 const degree = (Math.atan2(y, x) * (180 / Math.PI) + 360) % 360;
                 const color1 = getRandomint(360);
                 const color2 = getRandomint(360);
-                console.log(color1);
                 $(".bgc").css(
                     "background",
                     `linear-gradient(${degree}deg, hsl(${color1}, 15%, 75%) 40%, hsl(${color2}, 20%, 70%) 70%)`
+                );
+                $("h4").text(
+                    `color1 hsl(${color1}, 15%, 75%) color2 hsl(${color2}, 20%, 70%)`
                 );
             });
         </script>
