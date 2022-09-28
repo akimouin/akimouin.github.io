@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>akimouin's weather</title>
+        <style>
+            * {
+                margin: 0;
+            }
+            body {
+                width: 100%;
+                height: 100vh;
+                background-color: black;
+                overflow: hidden;
+            }
+            .weather {
+                font-size: 48px;
+                position: absolute;
+                top: 50%;
+                left: 10%;
+                transform: translate(0, -50%);
+                z-index: 30;
+            }
+            .rain-box {
+                position: absolute;
+                width: 100%;
+                height: 100vh;
+                margin-top: -20px;
+                display: flex;
+                justify-content: space-evenly;
+                visibility: hidden;
+            }
+            .rain {
+                width: 10px;
+                height: 100px;
+                transform: rotate(15deg);
+            }
+            .rain:nth-child(2)::after {
+                animation-delay: 0.4s;
+            }
+            .rain:nth-child(3)::after {
+                animation-delay: 0.3s;
+            }
+            .rain:nth-child(4)::after {
+                animation-delay: 0.2s;
+            }
+            .rain:nth-child(5)::after {
+                animation-delay: 0.1s;
+            }
+            .rain::after {
+                content: "";
+                display: inline-block;
+                width: 5px;
+                height: 50px;
+                background-color: rgba(255, 255, 255, 0.5);
+                border-radius: 5px;
+                margin-top: 0px;
+                animation: drip 0.8s infinite;
+            }
+            .star-box {
+                visibility: hidden;
+            }
+            .star4 {
+                position: absolute;
+                width: 10px;
+                height: 10px;
+            }
+            .star4 path {
+                fill: rgb(252, 248, 237);
+            }
+            .cloudy-box {
+                height: 100%;
+                background-color: #555;
+                opacity: 0.5;
+                visibility: hidden;
+            }
+            @keyframes twinkling {
+                0% {
+                    opacity: 1;
+                }
+                49% {
+                    opacity: 0.3;
+                }
+                50% {
+                    opacity: 0;
+                }
+                51% {
+                    opacity: 0.3;
+                }
+                100% {
+                    opacity: 1;
+                }
+            }
+            @keyframes drip {
+                0% {
+                    margin-top: 0;
+                    height: 0;
+                }
+                20% {
+                    height: 50px;
+                }
+                100% {
+                    margin-top: 100vh;
+                    height: 10px;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <h1 class="weather"></h1>
+        <div class="rain-box">
+            <div class="rain"></div>
+            <div class="rain"></div>
+            <div class="rain"></div>
+            <div class="rain"></div>
+            <div class="rain"></div>
+        </div>
+        <div class="star-box"> </div>
+        <div class="cloudy-box"></div>
+        <script
+            src="https://code.jquery.com/jquery-3.6.1.min.js"
+            integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ="
+            crossorigin="anonymous"
+        ></script>
+        <script>
+            const now = new Date();
+            const hour = now.getHours();
+            const getRandomint = (x) => Math.floor(Math.random() * x);
+            for (i = 0; i < 20; i++) {
+                const x = getRandomint(100);
+                const y = getRandomint(30);
+                const t1 = getRandomint(10);
+                const t2 = getRandomint(30);
+                $(".star-box").append(
+                    `<svg width="157" height="157" viewBox="0 0 157 157" fill="none" xmlns="http://www.w3.org/2000/svg" class="star4">
+<path d="M71.935 4.74155C74.1901 -1.35278 82.8099 -1.35279 85.065 4.74154L102.096 50.768C102.805 52.684 104.316 54.1947 106.232 54.9037L152.258 71.935C158.353 74.1901 158.353 82.8099 152.258 85.065L106.232 102.096C104.316 102.805 102.805 104.316 102.096 106.232L85.065 152.258C82.8099 158.353 74.1901 158.353 71.935 152.258L54.9037 106.232C54.1947 104.316 52.684 102.805 50.768 102.096L4.74155 85.065C-1.35278 82.8099 -1.35279 74.1901 4.74154 71.935L50.768 54.9037C52.684 54.1947 54.1947 52.684 54.9037 50.768L71.935 4.74155Z" fill="wheat"/>
+</svg>`
+                );
+                $(".star4:last")
+                    .css("left", `${x}%`)
+                    .css("top", `${y}%`)
+                    .css("animation", `twinkling ${t1}s infinite`)
+                    .css("animation-delay", `${t2}s`);
+            }
+
+            $.get(
+                "https://opendata.cwb.gov.tw/api/v1/rest/datastore/O-A0003-001?Authorization=CWB-A8D0E97B-19AA-4DA6-9229-C2A39DF250A1&locationName=%E6%9D%BF%E6%A9%8B&elementName=TEMP,Weather&parameterName=",
+                function (data) {
+                    const temp =
+                        data["records"]["location"][0]["weatherElement"][0][
+                            "elementValue"
+                        ];
+                    const weather =
+                        data["records"]["location"][0]["weatherElement"][1][
+                            "elementValue"
+                        ];
+                    const isRain = weather.match("雨");
+                    const isCloudy = weather.match("雲") || weather.match("陰");
+                    $(".weather").text(weather);
+                    if (temp > 26) {
+                        if (hour > 18 || hour < 5) {
+                            $("body")
+                                .css(
+                                    "background",
+                                    "linear-gradient(180deg, #232742 0%, #504762 83.5%, #1E1B22 100%)"
+                                )
+                                .css("color", "white");
+                            $(".star-box").css("visibility", "visible");
+                        } else if (hour < 5) {
+                            $("body")
+                                .css(
+                                    "background",
+                                    "linear-gradient(180deg, #232742 0%, #504762 83.5%, #1E1B22 100%)"
+                                )
+                                .css("color", "white");
+                        } else if (hour < 10) {
+                            $("body")
+                                .css(
+                                    "background",
+                                    "linear-gradient(187.53deg, #000C35 5.31%, #0B1E62 27.06%, #5896D2 53.08%, #FEFBEC 87.09%, #F6DE72 95.47%, #E9A25E 99.9%)"
+                                )
+                                .css("color", "white");
+                        } else if (hour < 16) {
+                            $("body")
+                                .css(
+                                    "background",
+                                    "linear-gradient(111.2deg, #092D74 0%, #3E73BF 29.71%, #81ACCF 81.32%)"
+                                )
+                                .css("color", "black");
+                        } else if (hour < 19) {
+                            $("body")
+                                .css(
+                                    "background",
+                                    "linear-gradient(170.27deg, #1F4665 8.66%, #577692 27.99%, #C08079 51.09%, #FD8B42 71.24%, #FDD077 92.68%)"
+                                )
+                                .css("color", "black");
+                        }
+                    } else {
+                        if (hour > 18 || hour < 5) {
+                            $("body")
+                                .css(
+                                    "background",
+                                    "linear-gradient(180deg, #232742 0%, #504762 83.5%, #1E1B22 100%)"
+                                )
+                                .css("color", "white");
+                            $(".star-box").css("visibility", "visible");
+                        } else if (hour < 10) {
+                            $("body")
+                                .css(
+                                    "background",
+                                    "linear-gradient(199.39deg, #6A70D0 10.06%, #9A97DA 27.75%, #D6CBEA 48.91%, #ECE5F7 74.29%, #EFE5EE 86.98%)"
+                                )
+                                .css("color", "white");
+                        } else if (hour < 16) {
+                            $("body")
+                                .css(
+                                    "background",
+                                    "linear-gradient(111.2deg, #092D74 0%, #3E73BF 29.71%, #81ACCF 81.32%)"
+                                )
+                                .css("color", "black");
+                        } else if (hour < 19) {
+                            $("body")
+                                .css(
+                                    "background",
+                                    "linear-gradient(180deg, #216EC8 0%, #637EC4 23%, #8B8BBF 50.5%, #B59FAC 83.5%, #F1C8A5 100%)"
+                                )
+                                .css("color", "black");
+                        }
+                    }
+                    if (isRain) {
+                        $(".rain-box").css("visibility", "visible");
+                        $(".cloudy-box").css("visibility", "visible");
+                    }
+                    if (isCloudy) {
+                        $(".cloudy-box").css("visibility", "visible");
+                    }
+                }
+            );
+        </script>
+    </body>
+</html>
