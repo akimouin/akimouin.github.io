@@ -5,239 +5,434 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>akimouin's page</title>
+        <link
+            rel="stylesheet"
+            href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
+            integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS"
+            crossorigin="anonymous"
+        />
+        <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"
+            integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A=="
+            crossorigin="anonymous"
+            referrerpolicy="no-referrer"
+        />
         <style>
+            @import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&display=swap");
             * {
-                margin: 0;
+                font-family: "Montserrat", sans-serif;
+                transition: 0.5s;
+                /* border: 1px solid #ccc; */
             }
             body {
-                width: 100%;
-                height: 100vh;
-                background-color: black;
-                overflow: hidden;
+                background: fixed url(./images/Star1.svg) 50px;
             }
-            .weather {
-                font-size: 48px;
+            nav {
+                position: fixed;
+                width: 100%;
+                background-color: #34404d;
+                color: #fff;
+                z-index: 50;
+            }
+            nav a {
+                padding: 0px 4px;
+                color: #fff;
+            }
+            nav a:hover,
+            nav a:active {
+                color: #cad8e5;
+                text-decoration: none;
+            }
+            .intro {
+                width: 100%;
+                background-color: lightslategray;
+                padding-top: 30px;
+            }
+            .intro-img {
+                text-align: center;
+            }
+            .intro-text {
+                padding: 0px 70px 0px 40px;
+            }
+            .intro a,
+            .intro span {
+                color: #4d588e;
+            }
+            .img-shape {
+                width: 375px;
+                height: 375px;
+                -webkit-mask-image: url(./images/Star4.svg);
+                mask-image: url(./images/Star4.svg);
+                -webkit-mask-repeat: no-repeat;
+                mask-repeat: no-repeat;
+                -webkit-mask-size: 300px;
+                mask-size: 300px;
+                -webkit-mask-position: center;
+                mask-position: center;
+                background: url(./images/myphoto.jpg) no-repeat center/85%;
+            }
+            .intro-img img {
+                width: 375px;
+            }
+            .skill {
+                padding: 40px 0px;
+                background-color: hsl(0, 0%, 100%);
+            }
+            .skill .col {
+                text-align: center;
+            }
+            .skill-icon:hover {
+                transform: translateY(-10px);
+            }
+            .skill i {
+                font-size: 40px;
+            }
+            .work {
+                margin: 50px 0px;
+            }
+            .work .container {
+                background-color: rgba(253, 253, 253, 0.651);
+            }
+            .work .row {
+                padding-top: 20px;
+            }
+            .work-title {
                 position: absolute;
-                top: 50%;
-                left: 10%;
-                transform: translate(0, -50%);
+                transform: translateY(-80%);
+                background-color: #fff;
                 z-index: 30;
+                border: lightslategray 2px dotted;
+                padding: 3px 8px;
             }
-            .rain-box {
-                position: absolute;
-                width: 100%;
-                height: 100vh;
-                margin-top: -20px;
-                display: flex;
-                justify-content: space-evenly;
-                visibility: hidden;
+            .work .row {
+                position: relative;
             }
-            .rain {
-                width: 10px;
-                height: 100px;
-                transform: rotate(15deg);
-            }
-            .rain:nth-child(2)::after {
-                animation-delay: 0.4s;
-            }
-            .rain:nth-child(3)::after {
-                animation-delay: 0.3s;
-            }
-            .rain:nth-child(4)::after {
-                animation-delay: 0.2s;
-            }
-            .rain:nth-child(5)::after {
-                animation-delay: 0.1s;
-            }
-            .rain::after {
+            .work .row::before {
                 content: "";
-                display: inline-block;
-                width: 5px;
-                height: 50px;
-                background-color: rgba(255, 255, 255, 0.5);
-                border-radius: 5px;
-                margin-top: 0px;
-                animation: drip 0.8s infinite;
-            }
-            .star-box {
-                visibility: hidden;
-            }
-            .star4 {
+                display: block;
                 position: absolute;
-                width: 10px;
-                height: 10px;
+                width: 95%;
+                border: 1px solid lightslategray;
             }
-            .star4 path {
-                fill: rgb(252, 248, 237);
+            .work-img {
+                padding: 10px 0;
+                text-align: center;
             }
-            .cloudy-box {
-                height: 100%;
-                background-color: #555;
-                opacity: 0.5;
-                visibility: hidden;
+            .work-img img {
+                margin: 10px auto;
+                width: 300px;
             }
-            @keyframes twinkling {
-                0% {
-                    opacity: 1;
-                }
-                49% {
-                    opacity: 0.3;
-                }
-                50% {
-                    opacity: 0;
-                }
-                51% {
-                    opacity: 0.3;
-                }
-                100% {
-                    opacity: 1;
-                }
+            .work-text {
+                padding-top: 20px;
             }
-            @keyframes drip {
-                0% {
-                    margin-top: 0;
-                    height: 0;
+            .work-text p.link {
+                text-align: center;
+            }
+            .work a {
+                color: #34404d;
+            }
+            .work a:hover,
+            .work a:active {
+                color: #cad8e5;
+            }
+            .hideNav {
+                transform: translateY(-100px);
+            }
+            @media screen and (min-width: 768px) {
+                nav {
+                    text-align: right;
+                    padding: 5px 30px;
                 }
-                20% {
-                    height: 50px;
+                .work .row:nth-child(odd) .work-img {
+                    order: 2;
                 }
-                100% {
-                    margin-top: 100vh;
-                    height: 10px;
+                .row:nth-child(odd) .work-title {
+                    right: 15px;
+                }
+                .row:nth-child(even) .work-text {
+                    padding-right: 100px;
+                }
+                .intro-text {
+                    padding: 100px 70px 0px 40px;
+                }
+                .work .row::before {
+                    width: 95%;
                 }
             }
         </style>
     </head>
     <body>
-        <h1 class="weather"></h1>
-        <div class="rain-box">
-            <div class="rain"></div>
-            <div class="rain"></div>
-            <div class="rain"></div>
-            <div class="rain"></div>
-            <div class="rain"></div>
+        <nav>
+            <a href="#intro"><i class="fa-solid fa-otter"></i> About me </a>
+            <a href="#skill"><i class="fa-solid fa-keyboard"></i> Skill </a>
+            <a href="#work"><i class="fa-solid fa-file"></i> Work </a>
+        </nav>
+        <div class="intro" id="intro">
+            <div class="container">
+                <div class="row">
+                    <div class="intro-img col-12 col-md-6">
+                        <div class="img-shape"> </div>
+                    </div>
+                    <div class="intro-text col-12 col-md-6">
+                        <h1>劉聿銘</h1>
+                        <p>
+                            由小助理轉職的前端工程師，對未接觸的領域總是保持好奇心，總是能在探索未知中找到獨屬於自己的樂趣。<br />
+                            平時的興趣是打遊戲，是個徹頭徹尾的宅家派，從單機遊戲到實境遊戲都有涉獵，既喜歡合作挑戰強大的對手，也喜歡獨自面對難解的謎題。
+                            <br />
+                            <i class="fa-solid fa-graduation-cap"></i
+                            >國立政治大學 歷史學系 畢業(2014-2018) <br />
+                            <i class="fa-solid fa-graduation-cap"></i
+                            >資展國際前端工程師就業養成班第26期-結訓(2022)<br />
+                            <a
+                                href="#"
+                                onclick="window.open('https://github.com/akimouin', '_blank');return false;"
+                            >
+                                <i class="fa-brands fa-github"></i>
+                                akimouin's Github
+                            </a>
+                            <br />
+                            <span>
+                                <i class="fa-regular fa-envelope"></i>
+                                akimouin@gmail.com
+                            </span>
+                        </p>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="star-box"> </div>
-        <div class="cloudy-box"></div>
+        <div class="skill" id="skill">
+            <div class="container">
+                <h3>Skill</h3>
+                <div class="row">
+                    <div class="col">
+                        <i
+                            class="fa-brands fa-html5 skill-icon"
+                            style="color: #ff5722"
+                        ></i
+                        ><br />
+                        HTML
+                    </div>
+                    <div class="col">
+                        <i
+                            class="fa-brands fa-css3-alt skill-icon"
+                            style="color: #2196f3"
+                        ></i
+                        ><br />
+                        CSS
+                    </div>
+                    <div class="col">
+                        <i
+                            class="fa-brands fa-js skill-icon"
+                            style="color: #f7d800"
+                        ></i
+                        ><br />
+                        JavaScript
+                    </div>
+                    <div class="col">
+                        <img
+                            src="./images/jquery_logo_icon.png"
+                            alt=""
+                            style="width: 40px"
+                            class="skill-icon"
+                        /><br />
+                        jQuery
+                    </div>
+                    <div class="col">
+                        <i
+                            class="fa-brands fa-node-js skill-icon"
+                            style="color: #68a063"
+                        ></i
+                        ><br />
+                        NodeJS
+                    </div>
+                    <div class="col">
+                        <i
+                            class="fa-brands fa-react skill-icon"
+                            style="color: #61dbfb"
+                        ></i
+                        ><br />
+                        ReactJS
+                    </div>
+                    <div class="col">
+                        <i
+                            class="fa-brands fa-bootstrap skill-icon"
+                            style="color: #7952b3"
+                        ></i
+                        ><br />
+                        Bootstrap
+                    </div>
+                    <div class="col">
+                        <img
+                            src="./images/mysql-logo.svg"
+                            alt=""
+                            height="40px"
+                            class="skill-icon"
+                        /><br />
+                        MySQL
+                    </div>
+                    <div class="col">
+                        <i
+                            class="fa-brands fa-php skill-icon"
+                            style="color: #4d588e"
+                        ></i
+                        ><br />
+                        php
+                    </div>
+                    <div class="col">
+                        <i class="fa-brands fa-figma skill-icon"></i><br />
+                        Figma
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="work" id="work">
+            <div class="container">
+                <h3>Work</h3>
+                <div class="row">
+                    <div class="work-img col-12 col-md-6"
+                        ><div class="work-title">
+                            <i class="fa-solid fa-feather"></i>
+                            資展專題-來生投放所HereAfter
+                        </div>
+                        <img src="./images/hereafter1.png" alt="" />
+                        <img src="./images/hereafter2.png" alt="" />
+                    </div>
+                    <div class="work-text col-12 col-md-6">
+                        <p>
+                            個人負責項目<br />來生形象頁面｜<br />
+
+                            可從來生衣櫥分享來生形象，首個形象會自動作為會員頭像。<br />
+                            客製化來生形象，可以選擇體型與各種部件，超過千種組合。<br />
+                            隨機按鈕可隨機產生來生形象。<br />
+                            部分部件有陰德值門檻，超過才可選配。<br />
+                            使用技術｜Javascript、React、NodeJs、GSAP、MySQL、FontAwesome
+                        </p>
+                        <p class="link">
+                            <a
+                                href="#"
+                                onclick="window.open('https://github.com/Nuyeel/Hereafter', '_blank');return false;"
+                                ><i class="fa-brands fa-github"></i
+                                >點我看程式碼</a
+                            >
+                            <a
+                                href="#"
+                                onclick="window.open('https://youtu.be/hdF4oOE79ms', '_blank');return false;"
+                                ><i class="fa-brands fa-youtube"></i
+                                >點我看Demo</a
+                            >
+                        </p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="work-img col-12 col-md-6">
+                        <div class="work-title">
+                            <i class="fa-solid fa-feather"></i> 日本文具網站
+                        </div>
+                        <img src="./images/csswork1.png" alt="" />
+                    </div>
+                    <div class="work-text col-12 col-md-6">
+                        <p>
+                            功能｜網頁切版、響應式網頁設計
+                            <br />使用技術｜html、CSS、Bootstrap<br />
+                        </p>
+                        <p class="link">
+                            <a
+                                href="#"
+                                onclick="window.open('https://youtu.be/hODjxlZ7els', '_blank');return false;"
+                                ><i class="fa-brands fa-youtube"></i
+                                >點我看Demo</a
+                            >
+                        </p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="work-img col-12 col-md-6">
+                        <div class="work-title">
+                            <i class="fa-solid fa-feather"></i>
+                            小工具-天氣查詢(板橋)
+                        </div>
+                        <img src="./images/JQ-weather1.png" alt="" />
+                        <img src="./images/JQ-weather2.png" alt="" />
+                    </div>
+                    <div class="work-text col-12 col-md-6">
+                        <p
+                            >使用技術｜html、CSS、jQuery、AJAX <br />功能｜
+                            顯示當前板橋天氣，根據氣溫、天氣概況、時間顯示不同的動畫效果。<br />
+                        </p>
+
+                        <p class="link">
+                            <a
+                                href="#"
+                                onclick="window.open('https://github.com/akimouin/akimouin.github.io/blob/main/weather/weather.html', '_blank');return false;"
+                                ><i class="fa-brands fa-github"></i
+                                >點我看程式碼</a
+                            >
+                            <a
+                                href="#"
+                                onclick="window.open('https://akimouin.github.io/weather/weather', '_blank');return false;"
+                                ><i class="fa-solid fa-pen"></i>點我看Demo</a
+                            >
+                        </p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="work-img col-12 col-md-6">
+                        <div class="work-title">
+                            <i class="fa-solid fa-feather"></i>
+                            小工具-隨機漸層背景
+                        </div>
+                        <img src="./images/JQ-Linear-Gradient1.png" alt="" />
+                    </div>
+                    <div class="work-text col-12 col-md-6">
+                        <p
+                            >使用技術｜html、CSS、jQuery
+                            <br />功能｜隨機產生漸層背景、並顯示隨機顏色代碼</p
+                        >
+
+                        <p class="link">
+                            <a
+                                href="#"
+                                onclick="window.open('https://github.com/akimouin/akimouin.github.io/blob/main/lineargradient/lineargradient.html', '_blank');return false;"
+                                ><i class="fa-brands fa-github"></i
+                                >點我看程式碼</a
+                            >
+                            <a
+                                href="#"
+                                onclick="window.open('https://akimouin.github.io/lineargradient/lineargradient', '_blank');return false;"
+                                ><i class="fa-solid fa-pen"></i>點我看Demo</a
+                            >
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <script
-            src="https://code.jquery.com/jquery-3.6.1.min.js"
-            integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ="
+            src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+            integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+            crossorigin="anonymous"
+        ></script>
+        <script
+            src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"
+            integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut"
+            crossorigin="anonymous"
+        ></script>
+        <script
+            src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"
+            integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
             crossorigin="anonymous"
         ></script>
         <script>
-            const now = new Date();
-            const hour = now.getHours();
-            const getRandomint = (x) => Math.floor(Math.random() * x);
-            for (i = 0; i < 20; i++) {
-                const x = getRandomint(100);
-                const y = getRandomint(30);
-                const t1 = getRandomint(10);
-                const t2 = getRandomint(30);
-                $(".star-box").append(
-                    `<svg width="157" height="157" viewBox="0 0 157 157" fill="none" xmlns="http://www.w3.org/2000/svg" class="star4">
-<path d="M71.935 4.74155C74.1901 -1.35278 82.8099 -1.35279 85.065 4.74154L102.096 50.768C102.805 52.684 104.316 54.1947 106.232 54.9037L152.258 71.935C158.353 74.1901 158.353 82.8099 152.258 85.065L106.232 102.096C104.316 102.805 102.805 104.316 102.096 106.232L85.065 152.258C82.8099 158.353 74.1901 158.353 71.935 152.258L54.9037 106.232C54.1947 104.316 52.684 102.805 50.768 102.096L4.74155 85.065C-1.35278 82.8099 -1.35279 74.1901 4.74154 71.935L50.768 54.9037C52.684 54.1947 54.1947 52.684 54.9037 50.768L71.935 4.74155Z" fill="wheat"/>
-</svg>`
-                );
-                $(".star4:last")
-                    .css("left", `${x}%`)
-                    .css("top", `${y}%`)
-                    .css("animation", `twinkling ${t1}s infinite`)
-                    .css("animation-delay", `${t2}s`);
-            }
-
-            $.get(
-                "https://opendata.cwb.gov.tw/api/v1/rest/datastore/O-A0003-001?Authorization=CWB-A8D0E97B-19AA-4DA6-9229-C2A39DF250A1&locationName=%E6%9D%BF%E6%A9%8B&elementName=TEMP,Weather&parameterName=",
-                function (data) {
-                    const temp =
-                        data["records"]["location"][0]["weatherElement"][0][
-                            "elementValue"
-                        ];
-                    const weather =
-                        data["records"]["location"][0]["weatherElement"][1][
-                            "elementValue"
-                        ];
-                    const isRain = weather.match("雨");
-                    const isCloudy = weather.match("雲") || weather.match("陰");
-                    $(".weather").text(weather);
-                    if (temp > 26) {
-                        if (hour > 18 || hour < 5) {
-                            $("body")
-                                .css(
-                                    "background",
-                                    "linear-gradient(180deg, #232742 0%, #504762 83.5%, #1E1B22 100%)"
-                                )
-                                .css("color", "white");
-                            $(".star-box").css("visibility", "visible");
-                        } else if (hour < 5) {
-                            $("body")
-                                .css(
-                                    "background",
-                                    "linear-gradient(180deg, #232742 0%, #504762 83.5%, #1E1B22 100%)"
-                                )
-                                .css("color", "white");
-                        } else if (hour < 10) {
-                            $("body")
-                                .css(
-                                    "background",
-                                    "linear-gradient(187.53deg, #000C35 5.31%, #0B1E62 27.06%, #5896D2 53.08%, #FEFBEC 87.09%, #F6DE72 95.47%, #E9A25E 99.9%)"
-                                )
-                                .css("color", "white");
-                        } else if (hour < 16) {
-                            $("body")
-                                .css(
-                                    "background",
-                                    "linear-gradient(111.2deg, #092D74 0%, #3E73BF 29.71%, #81ACCF 81.32%)"
-                                )
-                                .css("color", "black");
-                        } else if (hour < 19) {
-                            $("body")
-                                .css(
-                                    "background",
-                                    "linear-gradient(170.27deg, #1F4665 8.66%, #577692 27.99%, #C08079 51.09%, #FD8B42 71.24%, #FDD077 92.68%)"
-                                )
-                                .css("color", "black");
-                        }
-                    } else {
-                        if (hour > 18 || hour < 5) {
-                            $("body")
-                                .css(
-                                    "background",
-                                    "linear-gradient(180deg, #232742 0%, #504762 83.5%, #1E1B22 100%)"
-                                )
-                                .css("color", "white");
-                            $(".star-box").css("visibility", "visible");
-                        } else if (hour < 10) {
-                            $("body")
-                                .css(
-                                    "background",
-                                    "linear-gradient(199.39deg, #6A70D0 10.06%, #9A97DA 27.75%, #D6CBEA 48.91%, #ECE5F7 74.29%, #EFE5EE 86.98%)"
-                                )
-                                .css("color", "white");
-                        } else if (hour < 16) {
-                            $("body")
-                                .css(
-                                    "background",
-                                    "linear-gradient(111.2deg, #092D74 0%, #3E73BF 29.71%, #81ACCF 81.32%)"
-                                )
-                                .css("color", "black");
-                        } else if (hour < 19) {
-                            $("body")
-                                .css(
-                                    "background",
-                                    "linear-gradient(180deg, #216EC8 0%, #637EC4 23%, #8B8BBF 50.5%, #B59FAC 83.5%, #F1C8A5 100%)"
-                                )
-                                .css("color", "black");
-                        }
-                    }
-                    if (isRain) {
-                        $(".rain-box").css("visibility", "visible");
-                        $(".cloudy-box").css("visibility", "visible");
-                    }
-                    if (isCloudy) {
-                        $(".cloudy-box").css("visibility", "visible");
-                    }
+            let myscrollTop = 0;
+            $(window).scroll(function () {
+                if ($(window).scrollTop() > myscrollTop) {
+                    $("nav").addClass("hideNav");
+                } else {
+                    $("nav").removeClass("hideNav");
                 }
-            );
+                myscrollTop = $(window).scrollTop();
+            });
         </script>
     </body>
 </html>
